@@ -15,6 +15,5 @@ namespace ReactStoreAspx.Models
         public int Quantity { get; set; }
         public decimal TotalPrice { get; set; }
         public string Comment { get; set; }
-
     }
 }
