@@ -10,7 +10,10 @@ namespace ReactStoreAspx.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+                //AppDbContext c = new AppDbContext();
+                //c.Database.CreateIfNotExists();
+                 return View();
+            
         }
 
         public ActionResult About()
