@@ -66,29 +66,32 @@ namespace ReactStoreAspx.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(Customer user)
         {
-            if (!ModelState.IsValid)
+            //using the db context object 
+            using (var db = new AppDbContext())
             {
-                return View(model);
-            }
+                Customer usr = db.Customers.Where(u => (u.Email == user.Email && u.Password == user.Password)).FirstOrDefault();
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
-            {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                if(usr != null)
+                {
+                   // insert session variables we will store user id and email
+                    Session["Email"] = usr.Email;
+                    Session["UserId"] = usr.Id;
+                    //conveniently show them on viewbag
+                    ViewBag.Email = usr.Email;
+                    ViewBag.Id = usr.Id;
+                }
+                else
+                {
+                    ViewBag.ErrorMsg = "Login failed!";
+                    Session["Email"] = null;
+                    Session["UserId"] = null;
+                    ViewBag.Email = string.Empty;
+                    ViewBag.UserId = "-1";
+                }
             }
+                return View();
         }
 
         //
@@ -147,29 +150,27 @@ namespace ReactStoreAspx.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(Customer user)
+            //we automatically get the customer through model binding
         {
-            if (ModelState.IsValid)
+            ViewBag.ErrMsg = string.Empty;
+            ViewBag.SuccessMsg = string.Empty;
+
+            using (var db = new AppDbContext())
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                Customer c = db.Customers.Where(u => u.Email == user.Email).FirstOrDefault();
+                if (c != null)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                    ViewBag.ErrMsg = "User Exists!";
                 }
-                AddErrors(result);
+                else
+                {
+                    db.Customers.Add(user);
+                    db.SaveChanges();
+                    ViewBag.SuccessMsg = "User Added!";
+                }
             }
-
-            // If we got this far, something failed, redisplay form
-            return View(model);
+                return View(); 
         }
 
         //
@@ -387,11 +388,15 @@ namespace ReactStoreAspx.Controllers
 
         //
         // POST: /Account/LogOff
+        //changing to GET
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Session["Email"] = null;
+            Session["UserId"] = null;
+            ViewBag.UserId = "-1";
+
             return RedirectToAction("Index", "Home");
         }
 
