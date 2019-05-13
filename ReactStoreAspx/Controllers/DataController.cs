@@ -51,6 +51,10 @@ namespace ReactStoreAspx.Controllers
         //first get list of food items from user and user id
         public ActionResult PlaceOrder(IList<FoodItem> items, int id)
         {
+            //To test I can place a try catch  also I can add a flag
+            bool dbSuccess = false;
+           try { 
+
             //Now open the database
             using (var db = new AppDbContext())
             {
@@ -63,9 +67,11 @@ namespace ReactStoreAspx.Controllers
                 db.SaveChanges();
                 //as soon as I save this we are going to get an Order Id from the database and I want to save that order id
                 int orderId = o.Id;
+                decimal grandTotal = 0;
                 //loop through the fooditems and add them to the orderdetails table
                 foreach(var f in items)
                 {
+                    //initialize orderdetail object
                     OrderDetail orderDetail = new OrderDetail
                     {
                         OrderId = orderId,
@@ -73,9 +79,28 @@ namespace ReactStoreAspx.Controllers
                         Quantity = f.Quantity,
                         TotalPrice = f.Price * f.Quantity,
                     };
+                    //add to orderdetail table
+                    db.OrderDetails.Add(orderDetail);
+                    //need to keep track of a running total create var grand total
+                    grandTotal += orderDetail.TotalPrice;
                 }
+
+                o.TotalPaid = grandTotal;
+                o.Status = 1;
+                o.OrderDate = DateTime.Now;
+                db.SaveChanges();
+                dbSuccess = true;
             }
-                return null;
+          }
+            catch(Exception ex)
+            {
+                //log ex
+                dbSuccess = false;
+            }
+            if (dbSuccess)
+                return Json("success: true", JsonRequestBehavior.AllowGet);
+            else
+                return Json("success: false", JsonRequestBehavior.AllowGet);
         }
     }
 }
