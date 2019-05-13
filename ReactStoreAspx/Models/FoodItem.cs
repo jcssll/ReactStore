@@ -17,7 +17,7 @@ namespace ReactStoreAspx.Models
         public decimal Price { get; set; }
 
         [NotMapped]
-        public string Quantity { get; set; }
+        public int Quantity { get; set; }
         [NotMapped]
         public string Comment { get; set; }
     }

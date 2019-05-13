@@ -57,11 +57,23 @@ namespace ReactStoreAspx.Controllers
                 Order o = new Order();
                 o.CustomerId = id;
                 o.OrderDate = DateTime.Now;
-                //save to the orders table
+                //add to the orders table
                 db.Orders.Add(o);
+                //save to the orders table
                 db.SaveChanges();
                 //as soon as I save this we are going to get an Order Id from the database and I want to save that order id
                 int orderId = o.Id;
+                //loop through the fooditems and add them to the orderdetails table
+                foreach(var f in items)
+                {
+                    OrderDetail orderDetail = new OrderDetail
+                    {
+                        OrderId = orderId,
+                        FoodItemId = f.Id,
+                        Quantity = f.Quantity,
+                        TotalPrice = f.Price * f.Quantity,
+                    };
+                }
             }
                 return null;
         }
