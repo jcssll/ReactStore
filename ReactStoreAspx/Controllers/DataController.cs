@@ -35,7 +35,13 @@ namespace ReactStoreAspx.Controllers
         [HttpGet]
         public string GetUserId()
         {
-            return "1";
+            //initializing an int variable
+            //if the person has not signed in then -1 will be returned
+            int uid = -1;
+            //checking if session id is null or not
+            if (Session["UserId"] != null)
+                uid = Convert.ToInt32(Session["UserId"].ToString());
+            return uid.ToString();
         }
 
         //(Third Endpoint) place order:  When user places an order the react app will send those orders in json format and talk to the server through this endpoint
