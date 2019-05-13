@@ -47,9 +47,23 @@ namespace ReactStoreAspx.Controllers
         //(Third Endpoint) place order:  When user places an order the react app will send those orders in json format and talk to the server through this endpoint
         //user will post order data 
         [HttpPost]
-        public ActionResult PlaceOrder()
+        //this method handles all actions needed when a user submits an order
+        //first get list of food items from user and user id
+        public ActionResult PlaceOrder(IList<FoodItem> items, int id)
         {
-            return null;
+            //Now open the database
+            using (var db = new AppDbContext())
+            {
+                Order o = new Order();
+                o.CustomerId = id;
+                o.OrderDate = DateTime.Now;
+                //save to the orders table
+                db.Orders.Add(o);
+                db.SaveChanges();
+                //as soon as I save this we are going to get an Order Id from the database and I want to save that order id
+                int orderId = o.Id;
+            }
+                return null;
         }
     }
 }
