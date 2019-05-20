@@ -198,12 +198,25 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\src\index.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Img\BBQ-Tofu-Skewers-184219445-200x200.jpg" />
+    <Content Include="Img\Bruschetta-Tortellini-57576141-200x200.jpg" />
+    <Content Include="Img\Cheesecake-466968669-200x200.jpg" />
+    <Content Include="Img\Classic-Burger-508441287-200x200.jpg" />
+    <Content Include="Img\cnc.png" />
+    <Content Include="Img\code-ch02-a.txt" />
+    <Content Include="Img\Fiesta-Platter-86518097-200x200.jpg" />
+    <Content Include="Img\Garden-Buffet-477585032-200x200.jpg" />
+    <Content Include="Img\Handcrafted-Pizza-480957521-200x200.jpg" />
+    <Content Include="Img\logo.png" />
+    <Content Include="Img\Quinoa-Salad-455264057-200x200.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="tsconfig.json" />
     <Content Include="webpack.config.js" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -250,7 +263,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="tsconfig.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -271,10 +283,10 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Content\src\food.tsx" />
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <TypeScriptCompile Include="Content\src\food.tsx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

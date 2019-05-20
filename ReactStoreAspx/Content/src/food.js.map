@@ -1,1 +1,1 @@
-{"version":3,"file":"food.js","sourceRoot":"","sources":["food.tsx"],"names":[],"mappings":";;AAEA,+BAA+B;AAC/B,sCAAsC;AACtC,QAAQ,CAAC,MAAM,CACX;IACI,uCAAa,CACX,EACN,QAAQ,CAAC,cAAc,CAAC,WAAW,CAAC,CACvC,CAAC"}
+{"version":3,"file":"food.js","sourceRoot":"","sources":["food.tsx"],"names":[],"mappings":";;AAEA,+BAA+B;AAC/B,sCAAsC;AACtC,QAAQ,CAAC,MAAM,CACX;IACI,0CAAgB,CACd,EACN,QAAQ,CAAC,cAAc,CAAC,WAAW,CAAC,CACvC,CAAC"}
