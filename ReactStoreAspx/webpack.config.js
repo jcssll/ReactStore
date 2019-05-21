@@ -1,7 +1,7 @@
 ﻿//---webpack.config.js---------------------
 
 module.exports = {
-    entry: "./Content/src/food.tsx",
+    entry: "./Content/src/index.js",
     mode: "development",
     output: {
         filename: "bundle.js"
